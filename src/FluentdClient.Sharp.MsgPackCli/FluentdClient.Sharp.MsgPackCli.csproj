@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MsgPack.Cli" Version="[0.8.1,0.9.0)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\FluentdClient.Sharp\FluentdClient.Sharp.csproj" />
+    </ItemGroup>
+
+</Project>

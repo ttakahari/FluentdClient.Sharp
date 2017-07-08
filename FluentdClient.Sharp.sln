@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B045F8F-963F-40D4-9ACF-3C6914504E49}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp", "src\FluentdClient.Sharp\FluentdClient.Sharp.csproj", "{37E21B46-A2F1-47CD-9F2C-0321B426941F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MsgPackCli", "src\FluentdClient.Sharp.MsgPackCli\FluentdClient.Sharp.MsgPackCli.csproj", "{43C343E0-4725-4FDF-883E-5B555C5840A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{37E21B46-A2F1-47CD-9F2C-0321B426941F} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
+		{43C343E0-4725-4FDF-883E-5B555C5840A1} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
+	EndGlobalSection
+EndGlobal
