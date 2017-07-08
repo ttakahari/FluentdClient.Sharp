@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MsgPackCli", "src\FluentdClient.Sharp.MsgPackCli\FluentdClient.Sharp.MsgPackCli.csproj", "{43C343E0-4725-4FDF-883E-5B555C5840A1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DCC4101F-DE46-4504-8DF2-67AD267CACAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.Tests", "test\FluentdClient.Sharp.Tests\FluentdClient.Sharp.Tests.csproj", "{53836E45-328C-45C6-B8C7-56037C4435FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,10 @@ Global
 		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53836E45-328C-45C6-B8C7-56037C4435FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53836E45-328C-45C6-B8C7-56037C4435FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53836E45-328C-45C6-B8C7-56037C4435FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53836E45-328C-45C6-B8C7-56037C4435FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,5 +38,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{37E21B46-A2F1-47CD-9F2C-0321B426941F} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
 		{43C343E0-4725-4FDF-883E-5B555C5840A1} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
+		{53836E45-328C-45C6-B8C7-56037C4435FA} = {DCC4101F-DE46-4504-8DF2-67AD267CACAC}
 	EndGlobalSection
 EndGlobal
