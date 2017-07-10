@@ -37,7 +37,7 @@ namespace FluentdClient.Sharp.MsgPackCli.Tests
                     });
 
                 await client.SendAsync(
-                    "test.aaa",
+                    "test.ccc",
                     new
                     {
                         Id         = 3,
