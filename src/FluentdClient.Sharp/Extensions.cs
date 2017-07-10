@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("FluentdClient.Sharp.MsgPackCli")]
+[assembly: InternalsVisibleTo("FluentdClient.Sharp.MsgPack")]
 [assembly: InternalsVisibleTo("FluentdClient.Sharp.MessagePack")]
 namespace FluentdClient.Sharp
 {

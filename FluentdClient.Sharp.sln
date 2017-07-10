@@ -7,17 +7,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B045F8F-963
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp", "src\FluentdClient.Sharp\FluentdClient.Sharp.csproj", "{37E21B46-A2F1-47CD-9F2C-0321B426941F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MsgPackCli", "src\FluentdClient.Sharp.MsgPackCli\FluentdClient.Sharp.MsgPackCli.csproj", "{43C343E0-4725-4FDF-883E-5B555C5840A1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DCC4101F-DE46-4504-8DF2-67AD267CACAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.Tests", "test\FluentdClient.Sharp.Tests\FluentdClient.Sharp.Tests.csproj", "{53836E45-328C-45C6-B8C7-56037C4435FA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MsgPackCli.Tests", "test\FluentdClient.Sharp.MsgPackCli.Tests\FluentdClient.Sharp.MsgPackCli.Tests.csproj", "{019F93B3-B1DB-40EE-90EA-AB9BF11942D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MessagePack", "src\FluentdClient.Sharp.MessagePack\FluentdClient.Sharp.MessagePack.csproj", "{95976ACD-5D4E-4C9B-A6C5-74B1BA34446A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentdClient.Sharp.MessagePack", "src\FluentdClient.Sharp.MessagePack\FluentdClient.Sharp.MessagePack.csproj", "{95976ACD-5D4E-4C9B-A6C5-74B1BA34446A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MessagePack.Tests", "test\FluentdClient.Sharp.MessagePack.Tests\FluentdClient.Sharp.MessagePack.Tests.csproj", "{5F2D5285-EE95-4E52-8051-C0E24B305917}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluentdClient.Sharp.MessagePack.Tests", "test\FluentdClient.Sharp.MessagePack.Tests\FluentdClient.Sharp.MessagePack.Tests.csproj", "{5F2D5285-EE95-4E52-8051-C0E24B305917}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MsgPack", "src\FluentdClient.Sharp.MsgPack\FluentdClient.Sharp.MsgPack.csproj", "{B771BD4F-690D-4707-8B37-280968ADA0A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluentdClient.Sharp.MsgPack.Tests", "test\FluentdClient.Sharp.MsgPack.Tests\FluentdClient.Sharp.MsgPack.Tests.csproj", "{EF91A6CB-31AD-4396-91BF-2E768CDA683E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,18 +29,10 @@ Global
 		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E21B46-A2F1-47CD-9F2C-0321B426941F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43C343E0-4725-4FDF-883E-5B555C5840A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53836E45-328C-45C6-B8C7-56037C4435FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{53836E45-328C-45C6-B8C7-56037C4435FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53836E45-328C-45C6-B8C7-56037C4435FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53836E45-328C-45C6-B8C7-56037C4435FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{019F93B3-B1DB-40EE-90EA-AB9BF11942D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{019F93B3-B1DB-40EE-90EA-AB9BF11942D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{019F93B3-B1DB-40EE-90EA-AB9BF11942D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{019F93B3-B1DB-40EE-90EA-AB9BF11942D7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95976ACD-5D4E-4C9B-A6C5-74B1BA34446A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95976ACD-5D4E-4C9B-A6C5-74B1BA34446A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95976ACD-5D4E-4C9B-A6C5-74B1BA34446A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,16 +41,24 @@ Global
 		{5F2D5285-EE95-4E52-8051-C0E24B305917}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F2D5285-EE95-4E52-8051-C0E24B305917}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F2D5285-EE95-4E52-8051-C0E24B305917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B771BD4F-690D-4707-8B37-280968ADA0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B771BD4F-690D-4707-8B37-280968ADA0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B771BD4F-690D-4707-8B37-280968ADA0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B771BD4F-690D-4707-8B37-280968ADA0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF91A6CB-31AD-4396-91BF-2E768CDA683E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF91A6CB-31AD-4396-91BF-2E768CDA683E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF91A6CB-31AD-4396-91BF-2E768CDA683E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF91A6CB-31AD-4396-91BF-2E768CDA683E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{37E21B46-A2F1-47CD-9F2C-0321B426941F} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
-		{43C343E0-4725-4FDF-883E-5B555C5840A1} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
 		{53836E45-328C-45C6-B8C7-56037C4435FA} = {DCC4101F-DE46-4504-8DF2-67AD267CACAC}
-		{019F93B3-B1DB-40EE-90EA-AB9BF11942D7} = {DCC4101F-DE46-4504-8DF2-67AD267CACAC}
 		{95976ACD-5D4E-4C9B-A6C5-74B1BA34446A} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
 		{5F2D5285-EE95-4E52-8051-C0E24B305917} = {DCC4101F-DE46-4504-8DF2-67AD267CACAC}
+		{B771BD4F-690D-4707-8B37-280968ADA0A9} = {7B045F8F-963F-40D4-9ACF-3C6914504E49}
+		{EF91A6CB-31AD-4396-91BF-2E768CDA683E} = {DCC4101F-DE46-4504-8DF2-67AD267CACAC}
 	EndGlobalSection
 EndGlobal

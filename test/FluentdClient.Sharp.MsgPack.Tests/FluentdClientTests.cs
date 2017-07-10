@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FluentdClient.Sharp.MsgPackCli.Tests
+namespace FluentdClient.Sharp.MsgPack.Tests
 {
     public class FluentdClientTests
     {
         [Fact]
         public async Task SendAsync_Tests()
         {
-            using (var client = new FluentdClient("localhost", 24224, new MsgPackCliSerializer()))
+            using (var client = new FluentdClient("localhost", 24224, new MsgPackSerializer()))
             {
                 await client.SendAsync(
                     "test.aaa",

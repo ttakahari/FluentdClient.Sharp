@@ -3,12 +3,12 @@
     <PropertyGroup>
         <Description>MessagePack serializer for FluentdClient.Sharp, with using MsgPack.Cli.</Description>
         <Copyright>Copyright t.takahari 2017</Copyright>
-        <AssemblyTitle>FluentdClient.Sharp.MsgPackCli</AssemblyTitle>
+        <AssemblyTitle>FluentdClient.Sharp.MsgPack</AssemblyTitle>
         <Authors>t.takahari</Authors>
         <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <AssemblyName>FluentdClient.Sharp.MsgPackCli</AssemblyName>
-        <PackageId>FluentdClient.Sharp.MsgPackCli</PackageId>
+        <AssemblyName>FluentdClient.Sharp.MsgPack</AssemblyName>
+        <PackageId>FluentdClient.Sharp.MsgPack</PackageId>
         <PackageProjectUrl>https://github.com/ttakahari/FluentdClient.Sharp</PackageProjectUrl>
         <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
         <RepositoryType>git</RepositoryType>

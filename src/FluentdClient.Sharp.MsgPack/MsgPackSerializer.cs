@@ -8,12 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace FluentdClient.Sharp.MsgPackCli
+namespace FluentdClient.Sharp.MsgPack
 {
     /// <summary>
     /// The class of MessagePack serializer using MsgPack-Cli. 
     /// </summary>
-    public class MsgPackCliSerializer : IMessagePackSerializer
+    public class MsgPackSerializer : IMessagePackSerializer
     {
         private static readonly IReadOnlyDictionary<Type, Func<object, MessagePackObject>> _typedMessagePackObjectFactories = new Dictionary<Type, Func<object, MessagePackObject>>
         {
@@ -37,17 +37,17 @@ namespace FluentdClient.Sharp.MsgPackCli
         private readonly SerializationContext _context;
 
         /// <summary>
-        /// Create a new <see cref="MsgPackCliSerializer"/> instance.
+        /// Create a new <see cref="MsgPackSerializer"/> instance.
         /// </summary>
-        public MsgPackCliSerializer()
+        public MsgPackSerializer()
             : this(SerializationContext.Default)
         { }
 
         /// <summary>
-        /// Create a new <see cref="MsgPackCliSerializer"/> instance.
+        /// Create a new <see cref="MsgPackSerializer"/> instance.
         /// </summary>
         /// <param name="context">The serialization context information for internal serialization logic.</param>
-        public MsgPackCliSerializer(SerializationContext context)
+        public MsgPackSerializer(SerializationContext context)
         {
             _context = context;
         }

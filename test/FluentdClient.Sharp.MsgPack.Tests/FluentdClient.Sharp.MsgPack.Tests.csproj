@@ -2,8 +2,8 @@
 
     <PropertyGroup>
         <TargetFrameworks>netcoreapp1.0;net46</TargetFrameworks>
-        <AssemblyName>FluentdClient.Sharp.MsgPackCli.Tests</AssemblyName>
-        <PackageId>FluentdClient.Sharp.MsgPackCli.Tests</PackageId>
+        <AssemblyName>FluentdClient.Sharp.MsgPack.Tests</AssemblyName>
+        <PackageId>FluentdClient.Sharp.MsgPack.Tests</PackageId>
         <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
         <RuntimeFrameworkVersion Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">1.0.4</RuntimeFrameworkVersion>
         <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\FluentdClient.Sharp.MsgPackCli\FluentdClient.Sharp.MsgPackCli.csproj" />
+      <ProjectReference Include="..\..\src\FluentdClient.Sharp.MsgPack\FluentdClient.Sharp.MsgPack.csproj" />
     </ItemGroup>
 
     <ItemGroup>
