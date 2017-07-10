@@ -6,6 +6,8 @@
 
     <ItemGroup>
         <PackageReference Include="MsgPack.Cli" Version="[0.8.1,0.9.0)" />
+        <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+        <PackageReference Include="System.Reflection.TypeExtensions" Version="[4.3.0,)" />
     </ItemGroup>
 
     <ItemGroup>
