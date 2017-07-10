@@ -15,7 +15,6 @@ namespace FluentdClient.Sharp.MsgPackCli
     /// </summary>
     public class MsgPackCliSerializer : IMessagePackSerializer
     {
-        private static readonly DateTimeOffset _epochTime = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
         private static readonly IReadOnlyDictionary<Type, Func<object, MessagePackObject>> _typedMessagePackObjectFactories = new Dictionary<Type, Func<object, MessagePackObject>>
         {
             { typeof(short)         , obj => new MessagePackObject((short)obj) },
@@ -59,7 +58,7 @@ namespace FluentdClient.Sharp.MsgPackCli
             var objects = new List<MessagePackObject>(3); // [ tag, timestamp, message ]
 
             objects.Add(tag);
-            objects.Add(DateTimeOffset.Now.ToUniversalTime().Subtract(_epochTime).TotalSeconds);
+            objects.Add(DateTimeOffset.Now.GetUnixTimestamp().TotalSeconds);
             objects.Add(CreateMessagePackObject(message));
 
             using (var stream = new MemoryStream())

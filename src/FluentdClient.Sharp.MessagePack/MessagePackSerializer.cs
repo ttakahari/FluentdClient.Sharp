@@ -10,8 +10,6 @@ namespace FluentdClient.Sharp.MessagePack
     /// </summary>
     public class MessagePackSerializer : IMessagePackSerializer
     {
-        private static readonly DateTimeOffset _epochTime = new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero);
-
         private readonly IFormatterResolver _resolver;
 
         /// <summary>
@@ -36,7 +34,7 @@ namespace FluentdClient.Sharp.MessagePack
             var payload = new Payload
             {
                 Tag       = tag,
-                Timestamp = DateTimeOffset.Now.ToUniversalTime().Subtract(_epochTime).TotalSeconds,
+                Timestamp = DateTimeOffset.Now.GetUnixTimestamp().TotalSeconds,
                 Message   = message
             };
 

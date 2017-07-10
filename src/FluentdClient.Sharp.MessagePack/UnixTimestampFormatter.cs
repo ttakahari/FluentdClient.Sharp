@@ -28,9 +28,9 @@ namespace FluentdClient.Sharp.MessagePack
         /// <inheritdoc cref="IMessagePackFormatter.Serialize(ref byte[], int, T, IFormatterResolver)" />
         public int Serialize(ref byte[] bytes, int offset, DateTime value, IFormatterResolver formatterResolver)
         {
-            var dateData = ((DateTimeOffset)value).ToUnixTimeSeconds();
+            var unixTimestamp = value.GetUnixTimestamp().TotalSeconds;
 
-            return MessagePackBinary.WriteInt64(ref bytes, offset, dateData);
+            return MessagePackBinary.WriteDouble(ref bytes, offset, unixTimestamp);
         }
 
         /// <inheritdoc cref="IMessagePackFormatter.Deserialize(byte[], int, IFormatterResolver, out int)" />
@@ -41,9 +41,9 @@ namespace FluentdClient.Sharp.MessagePack
                 return DateTimeFormatter.Instance.Deserialize(bytes, offset, formatterResolver, out readSize);
             }
 
-            var dateData = MessagePackBinary.ReadInt64(bytes, offset, out readSize);
+            var unixTimestamp = MessagePackBinary.ReadInt64(bytes, offset, out readSize);
 
-            return DateTimeOffset.FromUnixTimeSeconds(dateData).UtcDateTime;
+            return DateTimeOffset.FromUnixTimeSeconds(unixTimestamp).UtcDateTime;
         }
     }
 
@@ -67,9 +67,9 @@ namespace FluentdClient.Sharp.MessagePack
         /// <inheritdoc cref="IMessagePackFormatter.Serialize(ref byte[], int, T, IFormatterResolver)" />
         public int Serialize(ref byte[] bytes, int offset, DateTimeOffset value, IFormatterResolver formatterResolver)
         {
-            var dateData = value.ToUnixTimeSeconds();
+            var unixTimestamp = value.GetUnixTimestamp().TotalSeconds;
 
-            return MessagePackBinary.WriteInt64(ref bytes, offset, dateData);
+            return MessagePackBinary.WriteDouble(ref bytes, offset, unixTimestamp);
         }
 
         /// <inheritdoc cref="IMessagePackFormatter.Deserialize(byte[], int, IFormatterResolver, out int)" />
@@ -80,9 +80,9 @@ namespace FluentdClient.Sharp.MessagePack
                 return DateTimeFormatter.Instance.Deserialize(bytes, offset, formatterResolver, out readSize);
             }
 
-            var dateData = MessagePackBinary.ReadInt64(bytes, offset, out readSize);
+            var unixTimestamp = MessagePackBinary.ReadInt64(bytes, offset, out readSize);
 
-            return DateTimeOffset.FromUnixTimeSeconds(dateData);
+            return DateTimeOffset.FromUnixTimeSeconds(unixTimestamp);
         }
     }
 }
