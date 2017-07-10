@@ -1,16 +1,14 @@
-﻿using FluentdClient.Sharp.MsgPackCli;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace FluentdClient.Sharp.Tests
 {
     public class FluentdClientTests
-{
+    {
         private const string Host = "localhost";
         private const int Port    = 24224;
-        private readonly IMessagePackSerializer _serializer = new MsgPackCliSerializer();
+        private readonly IMessagePackSerializer _serializer = new TestSerializer();
 
         [Fact]
         public void Constructor_Tests()
@@ -45,66 +43,7 @@ namespace FluentdClient.Sharp.Tests
             }
         }
 
-        [Fact]
-        public async Task SendAsync_Test()
-        {
-            using (var client = new FluentdClient(Host, Port, _serializer))
-            {
-                // Dictionary
-                {
-                    var message = new Dictionary<string, object>
-                    {
-                        { "Id"          , 100 },
-                        { "Name"        , "AAA" },
-                        { "Timestamp"   , DateTimeOffset.Now },
-                        { "IsAnonymous" , false },
-                        { "IsDictionary", true }
-                    };
+        // SendAsync_Tests in each serializers tests.
 
-                    await client.SendAsync("test.aaa", message);
-                }
-
-                // Anonymous
-                {
-                    var message = new
-                    {
-                        Id           = 200,
-                        Name         = "BBB",
-                        Timestamp    = DateTimeOffset.Now,
-                        IsAnonymous  = true,
-                        IsDictionary = false
-                    };
-
-                    await client.SendAsync("test.bbb", message);
-                }
-
-                // Class
-                {
-                    var message = new Payload
-                    {
-                        Id           = 300,
-                        Name         = "CCC",
-                        Timestamp    = DateTimeOffset.Now,
-                        IsAnonymous  = false,
-                        IsDictionary = false
-                    };
-
-                    await client.SendAsync("test.ccc", message);
-                }
-            }
-        }
-
-        private class Payload
-        {
-            public int Id { get; set; }
-
-            public string Name { get; set; }
-
-            public DateTimeOffset Timestamp { get; set; }
-
-            public bool IsAnonymous { get; set; }
-
-            public bool IsDictionary { get; set; }
-        }
     }
 }

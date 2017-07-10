@@ -1,5 +1,4 @@
-﻿using FluentdClient.Sharp.MsgPackCli;
-using System;
+﻿using System;
 using Xunit;
 
 namespace FluentdClient.Sharp.Tests
@@ -13,7 +12,7 @@ namespace FluentdClient.Sharp.Tests
             const int port    = 24224;
             const int timeout = 1000;
 
-            var serializer      = new MsgPackCliSerializer();
+            var serializer      = new TestSerializer();
             var exceptonHandler = new Action<Exception>(ex => { });
 
             Assert.Throws<ArgumentNullException>(() => new FluentdSetting("", port, serializer));
