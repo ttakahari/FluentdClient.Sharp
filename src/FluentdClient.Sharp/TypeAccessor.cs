@@ -36,5 +36,19 @@ namespace FluentdClient.Sharp
 
             return dictionary;
         }
+
+        internal static IDictionary<string, Func<object, object>> GetValueGetter(Type type)
+        {
+            return _valueGetter.GetOrAdd(
+                type,
+                valueType =>
+                {
+                    var properties = valueType.GetProperties();
+
+                    return properties.ToDictionary(
+                        x => x.Name,
+                        x => new Func<object, object>(obj => x.GetValue(obj)));
+                });
+        }
     }
 }

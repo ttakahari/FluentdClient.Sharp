@@ -115,8 +115,8 @@ namespace FluentdClient.Sharp.MsgPack
                 return new MessagePackObject(list);
             }
 
-            var objects = type.GetProperties()
-                .ToDictionary(x => new MessagePackObject(x.Name), x => CreateMessagePackObject(x.GetValue(value)));
+            var objects = TypeAccessor.GetValueGetter(type.AsType())
+                .ToDictionary(x => new MessagePackObject(x.Key), x => CreateMessagePackObject(x.Value.Invoke(value)));
 
             return new MessagePackObject(new MessagePackObjectDictionary(objects));
         }
