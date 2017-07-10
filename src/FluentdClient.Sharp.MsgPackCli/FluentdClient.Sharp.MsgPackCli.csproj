@@ -1,12 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <Description>MessagePack serializer for FluentdClient.Sharp, with using MsgPack.Cli.</Description>
+        <Copyright>Copyright t.takahari 2017</Copyright>
+        <AssemblyTitle>FluentdClient.Sharp.MsgPackCli</AssemblyTitle>
+        <Authors>t.takahari</Authors>
         <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <AssemblyName>FluentdClient.Sharp.MsgPackCli</AssemblyName>
+        <PackageId>FluentdClient.Sharp.MsgPackCli</PackageId>
+        <PackageProjectUrl>https://github.com/ttakahari/FluentdClient.Sharp</PackageProjectUrl>
+        <PackageLicenseUrl>http://opensource.org/licenses/MIT</PackageLicenseUrl>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/ttakahari/FluentdClient.Sharp</RepositoryUrl>
+        <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+        <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+        <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="MsgPack.Cli" Version="[0.8.1,0.9.0)" />
-        <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+        <PackageReference Include="System.Dynamic.Runtime" Version="[4.3.0,)" />
         <PackageReference Include="System.Reflection.TypeExtensions" Version="[4.3.0,)" />
     </ItemGroup>
 
