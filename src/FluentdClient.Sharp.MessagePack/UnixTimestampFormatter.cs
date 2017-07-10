@@ -25,7 +25,7 @@ namespace FluentdClient.Sharp.MessagePack
 
         private UnixTimestampDateTimeFormatter() { }
 
-        /// <inheritdoc cref="IMessagePackFormatter.Serialize(ref byte[], int, T, IFormatterResolver)" />
+        /// <inheritdoc cref="IMessagePackFormatter{T}.Serialize(ref byte[], int, T, IFormatterResolver)" />
         public int Serialize(ref byte[] bytes, int offset, DateTime value, IFormatterResolver formatterResolver)
         {
             var unixTimestamp = value.GetUnixTimestamp().TotalSeconds;
@@ -33,7 +33,7 @@ namespace FluentdClient.Sharp.MessagePack
             return MessagePackBinary.WriteDouble(ref bytes, offset, unixTimestamp);
         }
 
-        /// <inheritdoc cref="IMessagePackFormatter.Deserialize(byte[], int, IFormatterResolver, out int)" />
+        /// <inheritdoc cref="IMessagePackFormatter{T}.Deserialize(byte[], int, IFormatterResolver, out int)" />
         public DateTime Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
             if (MessagePackBinary.GetMessagePackType(bytes, offset) == MessagePackType.Extension)
@@ -64,7 +64,7 @@ namespace FluentdClient.Sharp.MessagePack
 
         private UnixTimestampDateTimeOffsetFormatter() { }
 
-        /// <inheritdoc cref="IMessagePackFormatter.Serialize(ref byte[], int, T, IFormatterResolver)" />
+        /// <inheritdoc cref="IMessagePackFormatter{T}.Serialize(ref byte[], int, T, IFormatterResolver)" />
         public int Serialize(ref byte[] bytes, int offset, DateTimeOffset value, IFormatterResolver formatterResolver)
         {
             var unixTimestamp = value.GetUnixTimestamp().TotalSeconds;
@@ -72,7 +72,7 @@ namespace FluentdClient.Sharp.MessagePack
             return MessagePackBinary.WriteDouble(ref bytes, offset, unixTimestamp);
         }
 
-        /// <inheritdoc cref="IMessagePackFormatter.Deserialize(byte[], int, IFormatterResolver, out int)" />
+        /// <inheritdoc cref="IMessagePackFormatter{T}.Deserialize(byte[], int, IFormatterResolver, out int)" />
         public DateTimeOffset Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
             if (MessagePackBinary.GetMessagePackType(bytes, offset) == MessagePackType.Extension)

@@ -94,7 +94,7 @@ namespace FluentdClient.Sharp.MessagePack
             Instance = new PayloadFormatter();
         }
 
-        /// <inheritdoc cref="IMessagePackFormatter.Serialize(ref byte[], int, T, IFormatterResolver)" />
+        /// <inheritdoc cref="IMessagePackFormatter{T}.Serialize(ref byte[], int, T, IFormatterResolver)" />
         public int Serialize(ref byte[] bytes, int offset, Payload value, IFormatterResolver formatterResolver)
         {
             var startOffset = offset;
@@ -152,7 +152,7 @@ namespace FluentdClient.Sharp.MessagePack
             return offset - startOffset;
         }
 
-        /// <inheritdoc cref="IMessagePackFormatter.Deserialize(byte[], int, IFormatterResolver, out int)" />
+        /// <inheritdoc cref="IMessagePackFormatter{T}.Deserialize(byte[], int, IFormatterResolver, out int)" />
         public Payload Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
             throw new NotSupportedException();
