@@ -43,29 +43,4 @@ namespace FluentdClient.Sharp.MessagePack
             return global::MessagePack.MessagePackSerializer.Serialize(payload, _resolver);
         }
     }
-
-    /// <summary>
-    /// The class that defines a payload for sending to fluentd.
-    /// </summary>
-    [MessagePackObject]
-    public class Payload
-    {
-        /// <summary>
-        /// Tag.
-        /// </summary>
-        [Key(0)]
-        public string Tag { get; set; }
-
-        /// <summary>
-        /// Timestamp.
-        /// </summary>
-        [Key(1)]
-        public double Timestamp { get; set; }
-
-        /// <summary>
-        /// Message.
-        /// </summary>
-        [Key(2)]
-        public IDictionary<string, object> Message { get; set; }
-    }
 }
