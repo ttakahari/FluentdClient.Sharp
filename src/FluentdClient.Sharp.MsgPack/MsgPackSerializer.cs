@@ -52,8 +52,19 @@ namespace FluentdClient.Sharp.MsgPack
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, IDictionary{string, object})" />
-        public byte[] Serialize(string tag, IDictionary<string, object> message)
+        /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, string)" />
+        public byte[] Serialize(string tag, string message)
+        {
+            return SerializeInternal(tag, message);
+        }
+
+        /// <inheritdoc cref="IMessagePackSerializer.Serialize{T}(string, T)" />
+        public byte[] Serialize<T>(string tag, T message) where T : class
+        {
+            return SerializeInternal(tag, message);
+        }
+
+        private byte[] SerializeInternal(string tag, object message)
         {
             var objects = new List<MessagePackObject>(3); // [ tag, timestamp, message ]
 

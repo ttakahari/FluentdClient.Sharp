@@ -32,8 +32,7 @@ namespace FluentdClient.Sharp.MessagePack
             MultipleFormatterResolver.AddFormatterResolver(resolver);
         }
 
-        /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, IDictionary{string, object})" />
-        public byte[] Serialize(string tag, IDictionary<string, object> message)
+        public byte[] Serialize(string tag, string message)
         {
             var payload = new Payload
             {
@@ -43,6 +42,22 @@ namespace FluentdClient.Sharp.MessagePack
             };
 
             return global::MessagePack.MessagePackSerializer.Serialize(payload, MultipleFormatterResolver.Instance);
+        }
+
+        public byte[] Serialize<T>(string tag, T message) where T : class
+        {
+            var payload = new Payload
+            {
+                Tag       = tag,
+                Timestamp = DateTimeOffset.Now.GetUnixTimestamp().TotalSeconds,
+                Message   = message
+            };
+
+            var bytes = global::MessagePack.MessagePackSerializer.Serialize(payload, MultipleFormatterResolver.Instance);
+
+            var json = global::MessagePack.MessagePackSerializer.ToJson(bytes);
+
+            return bytes;
         }
     }
 

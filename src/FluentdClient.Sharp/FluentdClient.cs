@@ -59,16 +59,24 @@ namespace FluentdClient.Sharp
             }
         }
 
+        /// <inheritdoc cref="IFluentdClient.SendAsync(string, string)" />
+        public async Task SendAsync(string tag, string message)
+        {
+            var value = _setting.Serializer.Serialize(tag, message);
+
+            await SendAsyncInternal(value).ConfigureAwait(false);
+        }
+
         /// <inheritdoc cref="IFluentdClient.SendAsync{T}(string, T)" />
         public async Task SendAsync<T>(string tag, T message) where T : class
         {
-            if (!(message is IDictionary<string, object> dictionary))
-            {
-                dictionary = TypeAccessor.GetMessageAsDictionary(message);
-            }
+            var value = _setting.Serializer.Serialize(tag, message);
 
-            var value = _setting.Serializer.Serialize(tag, dictionary);
+            await SendAsyncInternal(value).ConfigureAwait(false);
+        }
 
+        private async Task SendAsyncInternal(byte[] message)
+        {
             try
             {
                 if (!_tcp.Connected)
@@ -78,7 +86,7 @@ namespace FluentdClient.Sharp
 
                 _stream = _tcp.GetStream();
 
-                await _stream.WriteAsync(value, 0, value.Length).ConfigureAwait(false);
+                await _stream.WriteAsync(message, 0, message.Length).ConfigureAwait(false);
                 await _stream.FlushAsync().ConfigureAwait(false);
             }
             catch (Exception ex)

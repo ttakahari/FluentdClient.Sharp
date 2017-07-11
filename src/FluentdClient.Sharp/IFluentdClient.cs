@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FluentdClient.Sharp
@@ -16,7 +15,15 @@ namespace FluentdClient.Sharp
         Task ConnectAsync();
 
         /// <summary>
-        /// Send a message to fluentd server.
+        /// Send a simple message to fluentd server.
+        /// </summary>
+        /// <param name="tag">The tag.</param>
+        /// <param name="message">The message.</param>
+        /// <returns>The task.</returns>
+        Task SendAsync(string tag, string message);
+
+        /// <summary>
+        /// Send a structured message to fluentd server.
         /// </summary>
         /// <typeparam name="T">The type of the message.</typeparam>
         /// <param name="tag">The tag.</param>
