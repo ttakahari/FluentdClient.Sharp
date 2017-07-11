@@ -55,11 +55,7 @@ namespace FluentdClient.Sharp.MessagePack
                 Message   = message
             };
 
-            var bytes = global::MessagePack.MessagePackSerializer.Serialize(payload, MultipleFormatterResolver.Instance);
-
-            var json = global::MessagePack.MessagePackSerializer.ToJson(bytes);
-
-            return bytes;
+            return global::MessagePack.MessagePackSerializer.Serialize(payload, MultipleFormatterResolver.Instance);
         }
     }
 
