@@ -1,4 +1,5 @@
 ﻿using MessagePack;
+using MessagePack.Formatters;
 using MessagePack.Resolvers;
 using System;
 using System.Collections.Generic;
@@ -10,13 +11,11 @@ namespace FluentdClient.Sharp.MessagePack
     /// </summary>
     public class MessagePackSerializer : IMessagePackSerializer
     {
-        private readonly IFormatterResolver _resolver;
-
         /// <summary>
         /// Create a new <see cref="MessagePackSerializer"/> instance.
         /// </summary>
         public MessagePackSerializer()
-            : this(CompositeResolver.Instance)
+            : this(TypelessContractlessStandardResolver.Instance)
         { }
 
         /// <summary>
@@ -25,7 +24,12 @@ namespace FluentdClient.Sharp.MessagePack
         /// <param name="resolver">The storage of typed serializers.</param>
         public MessagePackSerializer(IFormatterResolver resolver)
         {
-            _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
+            if (resolver == null)
+            {
+                throw new ArgumentNullException(nameof(resolver));
+            }
+
+            MultipleFormatterResolver.AddFormatterResolver(resolver);
         }
 
         /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, IDictionary{string, object})" />
@@ -38,7 +42,66 @@ namespace FluentdClient.Sharp.MessagePack
                 Message   = message
             };
 
-            return global::MessagePack.MessagePackSerializer.Serialize(payload, _resolver);
+            return global::MessagePack.MessagePackSerializer.Serialize(payload, MultipleFormatterResolver.Instance);
+        }
+    }
+
+    /// <summary>
+    /// The class that resolves the multiple MessagePack format including <see cref="PayloadFormtterResolver"/>.s
+    /// </summary>
+    public sealed class MultipleFormatterResolver : IFormatterResolver
+    {
+        private static readonly IList<IFormatterResolver> _resolvers;
+
+        /// <summary>
+        /// Get the current instance of <see cref="MultipleFormatterResolver"/>.
+        /// </summary>
+        public static MultipleFormatterResolver Instance { get; }
+
+        static MultipleFormatterResolver()
+        {
+            _resolvers = new List<IFormatterResolver> { PayloadFormtterResolver.Instance };
+
+            Instance = new MultipleFormatterResolver();
+        }
+
+        private MultipleFormatterResolver() { }
+
+        /// <summary>
+        /// Add a instance of <see cref="IFormatterResolver"/>.
+        /// </summary>
+        /// <param name="resolver">The additional formatter resolver.</param>
+        public static void AddFormatterResolver(IFormatterResolver resolver)
+        {
+            if (!_resolvers.Contains(resolver))
+            {
+                _resolvers.Add(resolver);
+            }
+        }
+        
+        /// <inheritdoc cref="IFormatterResolver.GetFormatter{T}" />
+        public IMessagePackFormatter<T> GetFormatter<T>()
+        {
+            return FormatterCache<T>.Formatter;
+        }
+
+        private static class FormatterCache<T>
+        {
+            public static IMessagePackFormatter<T> Formatter { get; }
+
+            static FormatterCache()
+            {
+                foreach (var item in _resolvers)
+                {
+                    var f = item.GetFormatter<T>();
+
+                    if (f != null)
+                    {
+                        Formatter = f;
+                        return;
+                    }
+                }
+            }
         }
     }
 }
