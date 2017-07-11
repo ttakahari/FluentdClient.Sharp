@@ -32,6 +32,7 @@ namespace FluentdClient.Sharp.MessagePack
             MultipleFormatterResolver.AddFormatterResolver(resolver);
         }
 
+        /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, string)" />
         public byte[] Serialize(string tag, string message)
         {
             var payload = new Payload
@@ -44,6 +45,7 @@ namespace FluentdClient.Sharp.MessagePack
             return global::MessagePack.MessagePackSerializer.Serialize(payload, MultipleFormatterResolver.Instance);
         }
 
+        /// <inheritdoc cref="IMessagePackSerializer.Serialize{T}(string, T)" />
         public byte[] Serialize<T>(string tag, T message) where T : class
         {
             var payload = new Payload
