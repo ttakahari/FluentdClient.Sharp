@@ -168,6 +168,20 @@ namespace FluentdClient.Sharp.MessagePack
                 {
                     offset += PrimitiveObjectFormatter.Instance.Serialize(ref bytes, offset, value, formatterResolver);
                 }
+                else if (typeInfo.IsAnonymous())
+                {
+                    var properties = type.GetProperties(); // heavy
+
+                    dictionary = properties.ToDictionary(x => x.Name, x => x.GetValue(value));
+
+                    offset += MessagePackBinary.WriteMapHeader(ref bytes, offset, dictionary.Count);
+
+                    foreach (var item in dictionary)
+                    {
+                        offset += MessagePackBinary.WriteString(ref bytes, offset, item.Key);
+                        offset += SerializeInternal(ref bytes, offset, item.Value, formatterResolver);
+                    }
+                }
                 else
                 {
                     offset += DynamicObjectTypeFallbackFormatter.Instance.Serialize(ref bytes, offset, value, formatterResolver);

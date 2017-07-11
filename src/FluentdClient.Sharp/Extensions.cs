@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("FluentdClient.Sharp.MsgPack")]
@@ -18,6 +19,14 @@ namespace FluentdClient.Sharp
         internal static TimeSpan GetUnixTimestamp(this DateTimeOffset dateTimeOffset)
         {
             return dateTimeOffset.ToUniversalTime().Subtract(_epochDateTimeOffset);
+        }
+
+        internal static bool IsAnonymous(this TypeInfo type)
+        {
+            var hasAttribute = type.GetCustomAttribute(typeof(CompilerGeneratedAttribute)) != null;
+            var containsName = type.FullName.Contains("AnonymousType");
+
+            return hasAttribute && containsName;
         }
     }
 }
