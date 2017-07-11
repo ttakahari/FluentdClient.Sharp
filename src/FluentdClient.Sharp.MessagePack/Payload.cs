@@ -6,6 +6,7 @@ using MessagePack;
 using MessagePack.Formatters;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace FluentdClient.Sharp.MessagePack
@@ -32,7 +33,7 @@ namespace FluentdClient.Sharp.MessagePack
         /// Message.
         /// </summary>
         [Key(2)]
-        public IDictionary<string, object> Message { get; set; }
+        public object Message { get; set; }
     }
 
     /// <summary>
@@ -64,11 +65,14 @@ namespace FluentdClient.Sharp.MessagePack
 
             static FormatterCache()
             {
-                Formatter = (IMessagePackFormatter<T>)PayloadFormatter.Instance;
+                if (typeof(T) == typeof(Payload))
+                {
+                    Formatter = (IMessagePackFormatter<T>)PayloadFormatter.Instance;
+                }
             }
         }
     }
-    
+
     /// <summary>
     /// The class that defines the MessagePack format of <see cref="Payload"/>.
     /// </summary>
@@ -86,10 +90,10 @@ namespace FluentdClient.Sharp.MessagePack
 
         static PayloadFormatter()
         {
-            _nullableDateTimeFormatter       = new StaticNullableFormatter<DateTime>(UnixTimestampDateTimeFormatter.Instance);
-            _dateTimeArrayFormatter          = new ArrayFormatter<DateTime>();
+            _nullableDateTimeFormatter = new StaticNullableFormatter<DateTime>(UnixTimestampDateTimeFormatter.Instance);
+            _dateTimeArrayFormatter = new ArrayFormatter<DateTime>();
             _nullableDateTimeOffsetFormatter = new StaticNullableFormatter<DateTimeOffset>(UnixTimestampDateTimeOffsetFormatter.Instance);
-            _dateTimeOffsetArrayFormatter    = new ArrayFormatter<DateTimeOffset>();
+            _dateTimeOffsetArrayFormatter = new ArrayFormatter<DateTimeOffset>();
 
             Instance = new PayloadFormatter();
         }
@@ -102,52 +106,7 @@ namespace FluentdClient.Sharp.MessagePack
             offset += MessagePackBinary.WriteArrayHeader(ref bytes, offset, 3);
             offset += MessagePackBinary.WriteString(ref bytes, offset, value.Tag);
             offset += MessagePackBinary.WriteDouble(ref bytes, offset, value.Timestamp);
-            offset += MessagePackBinary.WriteMapHeader(ref bytes, offset, value.Message.Count);
-
-            foreach (var item in value.Message)
-            {
-                offset += MessagePackBinary.WriteString(ref bytes, offset, item.Key);
-
-                if (item.Value == null)
-                {
-                    offset += NilFormatter.Instance.Serialize(ref bytes, offset, Nil.Default, formatterResolver);
-                    continue;
-                }
-
-                var type     = item.Value.GetType();
-                var typeInfo = type.GetTypeInfo();
-                
-                if (item.Value is DateTime dateTime)
-                {
-                    offset += UnixTimestampDateTimeFormatter.Instance.Serialize(ref bytes, offset, dateTime, formatterResolver);
-                }
-                else if (item.Value is DateTime?) // Nullable-type can't use pattern-matching.
-                {
-                    offset += _nullableDateTimeFormatter.Serialize(ref bytes, offset, (DateTime?)item.Value, formatterResolver);
-                }
-                else if (item.Value is DateTime[] dateTimes)
-                {
-                    offset += _dateTimeArrayFormatter.Serialize(ref bytes, offset, dateTimes, formatterResolver);
-                }
-                else if (item.Value is DateTimeOffset dateTimeOffset)
-                {
-                    offset += UnixTimestampDateTimeOffsetFormatter.Instance.Serialize(ref bytes, offset, dateTimeOffset, formatterResolver);
-                }
-                else if (item.Value is DateTimeOffset?) // Nullable-type can't use pattern-matching.
-                {
-                    offset += _nullableDateTimeOffsetFormatter.Serialize(ref bytes, offset, (DateTimeOffset?)item.Value, formatterResolver);
-                }
-                else if (item.Value is DateTimeOffset[] dateTimeOffsets)
-                {
-                    offset += _dateTimeOffsetArrayFormatter.Serialize(ref bytes, offset, dateTimeOffsets, formatterResolver);
-                }
-                else
-                {
-                    // can't setrialize object types.
-
-                    offset += PrimitiveObjectFormatter.Instance.Serialize(ref bytes, offset, item.Value, formatterResolver);
-                }
-            }
+            offset += SerializeInternal(ref bytes, offset, value.Message, formatterResolver);
 
             return offset - startOffset;
         }
@@ -156,6 +115,66 @@ namespace FluentdClient.Sharp.MessagePack
         public Payload Deserialize(byte[] bytes, int offset, IFormatterResolver formatterResolver, out int readSize)
         {
             throw new NotSupportedException();
+        }
+
+        private int SerializeInternal(ref byte[] bytes, int offset, object value, IFormatterResolver formatterResolver)
+        {
+            var startOffset = offset;
+
+            if (value == null)
+            {
+                offset += NilFormatter.Instance.Serialize(ref bytes, offset, Nil.Default, formatterResolver);
+            }
+            else
+            {
+                var type     = value.GetType();
+                var typeInfo = type.GetTypeInfo();
+
+                if (value is DateTime dateTime)
+                {
+                    offset += UnixTimestampDateTimeFormatter.Instance.Serialize(ref bytes, offset, dateTime, formatterResolver);
+                }
+                else if (value is DateTime?) // Nullable-type can't use pattern-matching.
+                {
+                    offset += _nullableDateTimeFormatter.Serialize(ref bytes, offset, (DateTime?)value, formatterResolver);
+                }
+                else if (value is DateTime[] dateTimes)
+                {
+                    offset += _dateTimeArrayFormatter.Serialize(ref bytes, offset, dateTimes, formatterResolver);
+                }
+                else if (value is DateTimeOffset dateTimeOffset)
+                {
+                    offset += UnixTimestampDateTimeOffsetFormatter.Instance.Serialize(ref bytes, offset, dateTimeOffset, formatterResolver);
+                }
+                else if (value is DateTimeOffset?) // Nullable-type can't use pattern-matching.
+                {
+                    offset += _nullableDateTimeOffsetFormatter.Serialize(ref bytes, offset, (DateTimeOffset?)value, formatterResolver);
+                }
+                else if (value is DateTimeOffset[] dateTimeOffsets)
+                {
+                    offset += _dateTimeOffsetArrayFormatter.Serialize(ref bytes, offset, dateTimeOffsets, formatterResolver);
+                }
+                else if (value is IDictionary<string, object> dictionary) // before PrimitiveObjectFormatter
+                {
+                    offset += MessagePackBinary.WriteMapHeader(ref bytes, offset, dictionary.Count);
+
+                    foreach (var item in dictionary)
+                    {
+                        offset += MessagePackBinary.WriteString(ref bytes, offset, item.Key);
+                        offset += SerializeInternal(ref bytes, offset, item.Value, formatterResolver);
+                    }
+                }
+                else if (PrimitiveObjectFormatter.IsSupportedType(type, typeInfo, value))
+                {
+                    offset += PrimitiveObjectFormatter.Instance.Serialize(ref bytes, offset, value, formatterResolver);
+                }
+                else
+                {
+                    offset += DynamicObjectTypeFallbackFormatter.Instance.Serialize(ref bytes, offset, value, formatterResolver);
+                }
+            }
+
+            return offset - startOffset;
         }
     }
 }

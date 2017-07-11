@@ -75,7 +75,7 @@ namespace FluentdClient.Sharp.MessagePack
 
         static MultipleFormatterResolver()
         {
-            _resolvers = new List<IFormatterResolver> { PayloadFormtterResolver.Instance };
+            _resolvers = new List<IFormatterResolver> { UnixTimestampFormetterResolver.Instance, PayloadFormtterResolver.Instance };
 
             Instance = new MultipleFormatterResolver();
         }

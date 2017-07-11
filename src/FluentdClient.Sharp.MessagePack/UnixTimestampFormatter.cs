@@ -9,6 +9,73 @@ using System;
 namespace FluentdClient.Sharp.MessagePack
 {
     /// <summary>
+    /// The class that resolves the MessagePack format of <see cref="DateTime"/> or <see cref="DateTimeOffset"/> as UnixTimestamp.
+    /// </summary>
+    public sealed class UnixTimestampFormetterResolver : IFormatterResolver
+    {
+        /// <summary>
+        /// Get the current instance of <see cref="UnixTimestampFormetterResolver"/>.
+        /// </summary>
+        public static IFormatterResolver Instance { get; }
+
+        static UnixTimestampFormetterResolver()
+        {
+            Instance = new UnixTimestampFormetterResolver();
+        }
+
+        private UnixTimestampFormetterResolver() { }
+
+        /// <inheritdoc cref="IFormatterResolver.GetFormatter{T}" />
+        public IMessagePackFormatter<T> GetFormatter<T>()
+        {
+            return FormatterCache<T>.Formatter;
+        }
+
+        private static class FormatterCache<T>
+        {
+            public static IMessagePackFormatter<T> Formatter { get; }
+
+            static FormatterCache()
+            {
+                Formatter = (IMessagePackFormatter<T>)UnixTimestampFormatterHelper.GetFormatter(typeof(T));
+            }
+        }
+
+        private static class UnixTimestampFormatterHelper
+        {
+            internal static object GetFormatter(Type t)
+            {
+                if (t == typeof(DateTime))
+                {
+                    return UnixTimestampDateTimeFormatter.Instance;
+                }
+                else if (t == typeof(DateTime?))
+                {
+                    return new StaticNullableFormatter<DateTime>(UnixTimestampDateTimeFormatter.Instance);
+                }
+                else if (t == typeof(DateTime[]))
+                {
+                    return new ArrayFormatter<DateTime>();
+                }
+                else if (t == typeof(DateTimeOffset))
+                {
+                    return UnixTimestampDateTimeOffsetFormatter.Instance;
+                }
+                else if (t == typeof(DateTimeOffset?))
+                {
+                    return new StaticNullableFormatter<DateTimeOffset>(UnixTimestampDateTimeOffsetFormatter.Instance);
+                }
+                else if (t == typeof(DateTimeOffset[]))
+                {
+                    return new ArrayFormatter<DateTimeOffset>();
+                }
+
+                return null;
+            }
+        }
+    }
+
+    /// <summary>
     /// The class that defines the MessagePack format of <see cref="DateTime"/> as UnixTimestamp.
     /// </summary>
     public sealed class UnixTimestampDateTimeFormatter : IMessagePackFormatter<DateTime>
