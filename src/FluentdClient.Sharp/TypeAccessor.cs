@@ -19,18 +19,9 @@ namespace FluentdClient.Sharp
 
         internal static IDictionary<string, object> GetMessageAsDictionary<T>(T message) where T : class
         {
-            var valueType = message.GetType();
+            var type = message.GetType();
 
-            var valueGetter = _valueGetter.GetOrAdd(
-                valueType,
-                type =>
-                {
-                    var properties = type.GetProperties();
-
-                    return properties.ToDictionary(
-                        x => x.Name,
-                        x => new Func<object, object>(obj => x.GetValue(obj)));
-                });
+            var valueGetter = GetValueGetter(type);
 
             var dictionary = valueGetter.ToDictionary(x => x.Key, x => x.Value.Invoke(message));
 

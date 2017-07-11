@@ -40,12 +40,14 @@ namespace FluentdClient.Sharp
         /// <param name="serializer">The MessagePack serializer.</param>
         public FluentdSetting(string host, int port, IMessagePackSerializer serializer)
         {
-            if (string.IsNullOrEmpty(host)) throw new ArgumentNullException(nameof(host));
-            if (serializer == null)         throw new ArgumentNullException(nameof(serializer));
+            if (string.IsNullOrEmpty(host))
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
 
             Host       = host;
             Port       = port;
-            Serializer = serializer;
+            Serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
         }
     }
 }

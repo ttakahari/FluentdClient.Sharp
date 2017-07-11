@@ -32,13 +32,8 @@ namespace FluentdClient.Sharp
         /// <param name="setting">The setting for connecting to fluentd server.</param>
         public FluentdClient(FluentdSetting setting)
         {
-            if (setting == null)
-            {
-                throw new ArgumentNullException(nameof(setting));
-            }
-
+            _setting = setting ?? throw new ArgumentNullException(nameof(setting));
             _tcp     = new TcpClient();
-            _setting = setting;
         }
 
         /// <inheritdoc cref="IFluentdClient.ConnectAsync" />

@@ -143,7 +143,7 @@ namespace FluentdClient.Sharp.MessagePack
                 }
                 else
                 {
-                    // cant't setrialize object types.
+                    // can't setrialize object types.
 
                     offset += PrimitiveObjectFormatter.Instance.Serialize(ref bytes, offset, item.Value, formatterResolver);
                 }

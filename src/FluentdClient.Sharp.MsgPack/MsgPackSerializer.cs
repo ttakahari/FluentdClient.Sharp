@@ -49,7 +49,7 @@ namespace FluentdClient.Sharp.MsgPack
         /// <param name="context">The serialization context information for internal serialization logic.</param>
         public MsgPackSerializer(SerializationContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, IDictionary{string, object})" />

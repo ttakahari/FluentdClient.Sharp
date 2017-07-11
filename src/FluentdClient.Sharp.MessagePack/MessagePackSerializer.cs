@@ -25,7 +25,7 @@ namespace FluentdClient.Sharp.MessagePack
         /// <param name="resolver">The storage of typed serializers.</param>
         public MessagePackSerializer(IFormatterResolver resolver)
         {
-            _resolver = resolver;
+            _resolver = resolver ?? throw new ArgumentNullException(nameof(resolver));
         }
 
         /// <inheritdoc cref="IMessagePackSerializer.Serialize(string, IDictionary{string, object})" />

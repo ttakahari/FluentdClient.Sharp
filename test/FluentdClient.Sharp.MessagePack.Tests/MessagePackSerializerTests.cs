@@ -1,16 +1,42 @@
-﻿using System;
+﻿using MessagePack;
+using MessagePack.Resolvers;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FluentdClient.Sharp.MsgPack.Tests
+namespace FluentdClient.Sharp.MessagePack.Tests
 {
-    public class FluentdClientTests
+    public class MessagePackSerializerTests
     {
         [Fact]
-        public async Task SendAsync_Tests()
+        public void Constructor_Tests()
         {
-            using (var client = new FluentdClient("localhost", 24224, new MsgPackSerializer()))
+            Assert.Throws<ArgumentNullException>(() => new MessagePackSerializer(null));
+
+            {
+                var serializer = new MessagePackSerializer();
+
+                Assert.NotNull(serializer);
+            }
+
+            {
+                var serializer = new MessagePackSerializer(CompositeResolver.Instance);
+
+                Assert.NotNull(serializer);
+            }
+        }
+
+        [Fact]
+        public async Task Serialize_Tests()
+        {
+            CompositeResolver.RegisterAndSetAsDefault(new[]
+            {
+                PayloadFormtterResolver.Instance,
+                StandardResolver.Instance
+            });
+
+            using (var client = new FluentdClient("localhost", 24224, new MessagePackSerializer(CompositeResolver.Instance)))
             {
                 await client.SendAsync(
                     "test.aaa",
@@ -33,7 +59,8 @@ namespace FluentdClient.Sharp.MsgPack.Tests
                         { "Timestamp", DateTimeOffset.Now },
                         { "IsMessage", true },
                         { "Type"     , MessageType.Dictionary },
-                        { "Nested"   , new Message { Id = 1, Name = "AAA", Timestamp = DateTimeOffset.Now, IsMessage = true, Type = MessageType.Class } }
+                        // can't serialize nested object types.
+                        //{ "Nested"   , new Message { Id = 1, Name = "AAA", Timestamp = DateTimeOffset.Now, IsMessage = true, Type = MessageType.Class } }
                     });
 
                 await client.SendAsync(
@@ -51,18 +78,25 @@ namespace FluentdClient.Sharp.MsgPack.Tests
         }
     }
 
+    [MessagePackObject]
     public class Message
     {
+        [Key(0)]
         public int Id { get; set; }
 
+        [Key(1)]
         public string Name { get; set; }
 
+        [Key(2)]
         public DateTimeOffset Timestamp { get; set; }
 
+        [Key(3)]
         public bool IsMessage { get; set; }
 
+        [Key(4)]
         public MessageType Type { get; set; }
 
+        [Key(5)]
         public object[] Array { get; set; }
     }
 
