@@ -5,6 +5,7 @@
         <Copyright>Copyright t.takahari 2017</Copyright>
         <AssemblyTitle>FluentdClient.Sharp</AssemblyTitle>
         <Authors>t.takahari</Authors>
+        <Version>1.1.0</Version>
         <TargetFrameworks>net46;netstandard1.6</TargetFrameworks>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <AssemblyName>FluentdClient.Sharp</AssemblyName>
