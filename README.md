@@ -26,7 +26,11 @@ using (var client = new FluentdClient("172.0.0.1", 24224, new MsgPackSerializer(
 {
     await client.ConnectAsync();
 
-    await client.SendAsync("sample-tag", new { MachineName = Environment.MachineName });
+    // send a simple message.
+    await client.SendAsync("tag.simple", "hello fluentd.")
+
+    // send a structured message.
+    await client.SendAsync("tag.structured", new { MachineName = Environment.MachineName });
 }
 ```
 
@@ -83,9 +87,7 @@ var serializer = new MsgPackSerializer(context);
 
 If you don't give a instance of ```IMessagePackFormatterResolver```, ```TypelessContractlessStandardResolver.Instance``` is given.
 
-```MultipleFormatterResolver``` is used inner actually because it includes ```PayloadFormatterResolver``` that resolves the format of ```Payload```(message class) and is required.
-
-Currently, ```MessagePackSerializer``` can't serialize a nested typed object.
+```MultipleFormatterResolver``` is used inner actually because it includes ```PayloadFormatterResolver``` that resolves the format of ```Payload```(message class)  and ```UnixTimestampFormatterResolver``` that resolves the format of ```DateTime``` and ```DateTimeOffset``` as UnixTimestamp.
 
 ```csharp
 var serializer = new MessagePackSerializer(StandardResolver.Instance);
