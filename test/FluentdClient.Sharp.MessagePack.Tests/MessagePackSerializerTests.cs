@@ -30,16 +30,12 @@ namespace FluentdClient.Sharp.MessagePack.Tests
         [Fact]
         public async Task Serialize_Tests()
         {
-            CompositeResolver.RegisterAndSetAsDefault(new[]
+            using (var client = new FluentdClient("localhost", 24224, new MessagePackSerializer()))
             {
-                PayloadFormtterResolver.Instance,
-                StandardResolver.Instance
-            });
+                await client.SendAsync("test.messagepack.simple", "hello fluentd by messagepack.");
 
-            using (var client = new FluentdClient("localhost", 24224, new MessagePackSerializer(CompositeResolver.Instance)))
-            {
                 await client.SendAsync(
-                    "test.aaa",
+                    "test.messagepack.structured.class",
                     new Message
                     {
                         Id        = 1,
@@ -51,7 +47,7 @@ namespace FluentdClient.Sharp.MessagePack.Tests
                     });
 
                 await client.SendAsync(
-                    "test.bbb",
+                    "test.messagepack.structured.dictionary",
                     new Dictionary<string, object>
                     {
                         { "Id"       , 2 },
@@ -59,12 +55,11 @@ namespace FluentdClient.Sharp.MessagePack.Tests
                         { "Timestamp", DateTimeOffset.Now },
                         { "IsMessage", true },
                         { "Type"     , MessageType.Dictionary },
-                        // can't serialize nested object types.
-                        //{ "Nested"   , new Message { Id = 1, Name = "AAA", Timestamp = DateTimeOffset.Now, IsMessage = true, Type = MessageType.Class } }
+                        { "Nested"   , new Message { Id = 1, Name = "AAA", Timestamp = DateTimeOffset.Now, IsMessage = true, Type = MessageType.Class } }
                     });
 
                 await client.SendAsync(
-                    "test.ccc",
+                    "test.messagepack.structured.anonymous",
                     new
                     {
                         Id         = 3,

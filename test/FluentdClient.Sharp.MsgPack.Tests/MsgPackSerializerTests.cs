@@ -31,8 +31,10 @@ namespace FluentdClient.Sharp.MsgPack.Tests
         {
             using (var client = new FluentdClient("localhost", 24224, new MsgPackSerializer()))
             {
+                await client.SendAsync("test.msgpack.simple", "hello fluentd by msgpack.");
+
                 await client.SendAsync(
-                    "test.aaa",
+                    "test.msgpack.structured.class",
                     new Message
                     {
                         Id        = 1,
@@ -44,7 +46,7 @@ namespace FluentdClient.Sharp.MsgPack.Tests
                     });
 
                 await client.SendAsync(
-                    "test.bbb",
+                    "test.msgpack.structured.dictionary",
                     new Dictionary<string, object>
                     {
                         { "Id"       , 2 },
@@ -56,7 +58,7 @@ namespace FluentdClient.Sharp.MsgPack.Tests
                     });
 
                 await client.SendAsync(
-                    "test.ccc",
+                    "test.msgpack.structured.anonymous",
                     new
                     {
                         Id         = 3,
