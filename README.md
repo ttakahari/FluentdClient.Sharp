@@ -27,7 +27,7 @@ using (var client = new FluentdClient("172.0.0.1", 24224, new MsgPackSerializer(
     await client.ConnectAsync();
 
     // send a simple message.
-    await client.SendAsync("tag.simple", "hello fluentd.")
+    await client.SendAsync("tag.simple", "hello fluentd.");
 
     // send a structured message.
     await client.SendAsync("tag.structured", new { MachineName = Environment.MachineName });
