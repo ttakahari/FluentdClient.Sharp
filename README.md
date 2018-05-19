@@ -4,6 +4,9 @@ Fluentd client for C# and VB.NET that is thin and simple.
 
 Currently, it supports TCP connection only.
 
+[![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?style=plastic)](https://ci.appveyor.com/project/ttakahari/FluentdClient.Sharp)
+[![NuGet](https://img.shields.io/nuget/v/FluentdClient.Sharp.svg?style=plastic)](https://www.nuget.org/packages/FluentdClient.Sharp/)
+
 ## Install
 
 from NuGet - [FluentdClient.Sharp](https://www.nuget.org/packages/FluentdClient.Sharp/)
