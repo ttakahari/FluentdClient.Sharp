@@ -25,7 +25,7 @@ Finally, you can send a message to fluentd server to call ```SendAsync``` method
 (If you don't call ```ConnectAsync``` method before, ```FluetndClient``` calls it automatically.)
 
 ```csharp
-using (var client = new FluentdClient("172.0.0.1", 24224, new MsgPackSerializer()))
+using (var client = new FluentdClient("127.0.0.1", 24224, new MsgPackSerializer()))
 {
     await client.ConnectAsync();
 
@@ -40,7 +40,7 @@ using (var client = new FluentdClient("172.0.0.1", 24224, new MsgPackSerializer(
 If you use ```FluentdSetting``` when you create the instance of ```FluentdClient```, you can set the timeout and how to handle exceptions when sending messages to fluentd server.
 
 ```csharp
-var setting = new FluentdSetting("172.0.0.1", 24224, new MessagePackSerializer());
+var setting = new FluentdSetting("127.0.0.1", 24224, new MessagePackSerializer());
 
 // set timeout(ms)
 setting.Timeout = 5000;
